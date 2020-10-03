@@ -4,15 +4,14 @@
     <v-spacer></v-spacer>
     <v-data-table
       :headers="headers"
-      :items="desserts"
-      :sort-by="['calories', 'fat']"
-      :sort-desc="[false, true]"
-      multi-sort
+      :items="employees"
+      :multi-sort = 'true'
       class="elevation-1"
       @click:row="selectRow"
     ></v-data-table>
     <v-snackbar v-model="snackbar">
-      You have selected {{ currentItem }}
+      You have selected {{ selectedEmployee.name }},
+      {{ selectedEmployee.title}}
 
       <template v-slot:action="{ attrs }">
         <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
@@ -24,113 +23,32 @@
 </template>
 
 <script>
+import employeesData from '../assets/test.json'
 export default {
   data() {
     return {
-      currentItem: '',
+      selectedEmployee: {
+        name:'',
+        title:''
+      },
       snackbar: false,
       headers: [
         {
-          text: "Dessert (100g serving)",
+          text: "Name",
           align: "start",
           sortable: false,
           value: "name",
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" },
+        { text: "Title", value: "title" },
       ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 200,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%",
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 200,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%",
-        },
-        {
-          name: "Eclair",
-          calories: 300,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%",
-        },
-        {
-          name: "Cupcake",
-          calories: 300,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%",
-        },
-        {
-          name: "Gingerbread",
-          calories: 400,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%",
-        },
-        {
-          name: "Jelly bean",
-          calories: 400,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%",
-        },
-        {
-          name: "Lollipop",
-          calories: 400,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%",
-        },
-        {
-          name: "Honeycomb",
-          calories: 400,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%",
-        },
-        {
-          name: "Donut",
-          calories: 500,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%",
-        },
-        {
-          name: "KitKat",
-          calories: 500,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%",
-        },
-      ],
+      employees: employeesData.employees,
     };
   },
   methods: {
     selectRow(event) {
       this.snackbar = true;
-      this.currentItem = event.name
-      console.log(this.currentItem)
+      this.selectedEmployee.name = event.name;
+      this.selectedEmployee.title = event.title;
     },
   },
 };
